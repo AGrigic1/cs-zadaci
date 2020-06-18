@@ -1,0 +1,131 @@
+<div> 
+  <div style="float:left"> 
+    <ejs-schedule 
+      #scheduleObj 
+      height="850" 
+      width="1450"
+      [currentView]="setView" 
+      (dragStart) = "onDragStart($event)" 
+      (resizeStart) = "onResizeStart($event)" 
+      [selectedDate]="setDate" 
+      [eventSettings]="eventObject">
+      <e-resources>
+        <e-resource
+            field="doctors" 
+            title="Doktori" 
+            name="Doktori"
+            textField="name"
+            idField="id"
+            [dataSource]="DocDataSource">
+        </e-resource>
+        <e-resource
+            field="patients"
+            title="Pacijenti"
+            name="Pacijenti" 
+            textField="name"
+            idField="id"
+            groupIDField="PacGroupId"
+            [allowMultiple]="allowMultiplePac"
+            [dataSource]="PacDataSource">
+        </e-resource>
+      </e-resources>
+      
+      <!-- <ng-template #eventSettingsTemplate let-data>
+        <div class='template-wrapper'>
+          {{data.Subject}}
+        </div>
+      </ng-template> -->
+     <!--<ng-template #editorTemplate let-data>
+        <table *ngIf="data != undefined" class="custom-event-editor" width="100%" cellpadding="5">
+          <tbody>
+            <tr>
+              <td class="e-textlabel">Opis</td>
+              <td colspan="4">
+                <input 
+                id="Subject" 
+                class="e-field e-input" 
+                type="text" 
+                value="{{data.Subject}}" 
+                data-name="Subject" 
+                style="width: 100%" 
+                />
+              </td>
+            </tr>
+            <tr>
+              <td class="e-textlabel">Status</td>
+              <td colspan="4">
+                <ejs-dropdownlist 
+                id='Status' 
+                class="e-field" 
+                data-name="Status" 
+                placeholder='Izaberi status' 
+                [dataSource]='StatusData' 
+                [fields]='statusFields' 
+                value='{{data.Status}}'>
+                </ejs-dropdownlist>
+              </td>
+            </tr>
+            <tr>
+              <td class="e-textlabel">Od</td>
+              <td colspan="4">
+                <ejs-datetimepicker 
+                id="StartTime" 
+                class="e-field" 
+                data-name="StartTime" 
+                format="dd/MM/yy H:mm" 
+                [value]="dateParser(data.startTime || data.StartTime)">
+                </ejs-datetimepicker>
+              </td>
+            </tr>
+            <tr>
+              <td class="e-textlabel">Do</td>
+              <td colspan="4">
+                <ejs-datetimepicker 
+                id="EndTime" 
+                class="e-field" 
+                data-name="EndTime" 
+                format="dd/MM/yy H:mm"
+                [value]='dateParser(data.endTime || data.EndTime)'>
+              </ejs-datetimepicker>
+              </td>
+            </tr>
+            <tr>
+              <td class="e-textlabel">Razlog</td>
+              <td colspan="4">
+                <textarea 
+                id="Description" 
+                class="e-field e-input" 
+                data-name="Description" 
+                rows="3" 
+                cols="50"
+                value="{{data.Descrption}}" 
+                style="width: 100%; height: 60px !important; resize: vertical">
+              </textarea>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </ng-template> -->
+    </ejs-schedule> 
+  </div> 
+  <!-- <div style="width:300px;float:right;margin-right:150px"> -->
+  <!-- <div class="treeview-container">
+    <div class="title-container">
+      <h1 class="title-text">Waiting List</h1>
+        <ejs-treeview #treeObj 
+          cssClass='treeview-external-drag' 
+          [allowDragAndDrop]='true' 
+          (nodeDragStop)="onTreeDragStop($event)"
+          [allowEditing]='allowEditing'>
+            <ng-template #nodeTemplate="" let-data="">
+                <div id="waiting">
+                    <div id="waitdetails">
+                        <div id="waitlist">{{data.name}} - {{data.surname}}</div>
+                        <div id="waitcategory">{{data.PacijentID}} - {{data.Opica}}</div>
+                    </div>
+                </div>
+            </ng-template>
+        </ejs-treeview> 
+  </div>
+  </div> -->
+</div>
