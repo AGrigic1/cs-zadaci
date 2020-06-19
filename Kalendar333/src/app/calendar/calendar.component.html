@@ -8,19 +8,20 @@
       (dragStart) = "onDragStart($event)" 
       (resizeStart) = "onResizeStart($event)" 
       [selectedDate]="setDate" 
-      [eventSettings]="eventObject">
+      [eventSettings]="eventObject"
+      [group]="group">
       <e-resources>
         <e-resource
             field="doctors" 
-            title="Doktori" 
+            title="Doktor" 
             name="Doktori"
             textField="name"
             idField="id"
-            [dataSource]="DocDataSource">
+            [dataSource]="doctors">
         </e-resource>
         <e-resource
             field="patients"
-            title="Pacijenti"
+            title="Pacijent"
             name="Pacijenti" 
             textField="name"
             idField="id"

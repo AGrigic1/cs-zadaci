@@ -81,12 +81,15 @@ export class CalendarComponent implements OnInit {
         console.log(appointmentData);
         this.appointments = appointmentData;
       })
+
   }
 
   public allowMultiplePac: Boolean = true;
   public allowEditing: boolean = true;
+
   public group: GroupModel = {
-    resources: ['Doktori', 'Pacijenti']
+    byGroupID: false,
+    resources: ["Doktori", "Pacijenti"]
   };
 
   public setView: View = 'Month'; //postavljanje početnog pogleda na kalendar, izmjena izmedu Day, Week, WorkWeek, Month, Agenda
@@ -99,9 +102,9 @@ export class CalendarComponent implements OnInit {
     { name: "Perica", id: 2}
   ];
   public PacDataSource: Object[] = [
-    { name: "Marica", id: 1, PacGroupId: 1 },
-    { name: "Ivana", id: 2, PacGroupId: 2 },
-    { name: "Klara", id: 3, PacGroupId: 1 }
+    { name: "Marica", id: 1, PacGroupId: "03272354-6fdc-4f41-60ec-08d808629d13" },
+    { name: "Ivana", id: 2, PacGroupId: "03272354-6fdc-4f41-60ec-08d808629d13" },
+    { name: "Klara", id: 3, PacGroupId: "87e81399-4c6f-428c-60ee-08d808629d13" }
   ];
 
   public eventObject: EventSettingsModel = {
@@ -117,7 +120,8 @@ export class CalendarComponent implements OnInit {
       Subject: "Testing2",
       StartTime: new Date(2020,4,28,10,0),
       EndTime: new Date(2020,4,28,12,0),
-      Location: "Krov"
+      Location: "Krov",
+      Description: "Sta?"
     }
     ], 
     /*fields: {
@@ -144,39 +148,5 @@ export class CalendarComponent implements OnInit {
   onResizeStart(args: ResizeEventArgs): void {
     args.interval = 5;
   }
-
-    // POZIVANJE WEB API-A
-
-    // public data: Object = new DataManager({
-    //   url: 'https://localhost:44308/api',
-    //   adaptor: new ODataV4Adaptor,
-    //   crossDomain: true,
-    // });
-  
-    // public query:Object = new Query().from('Patient').select('Id,Name,Surname,Email');
-    // public field:Object = { dataSource:this.data, query: this.query, id: 'Id', text: 'Name' };
-  
-    // public query1:Object = new Query().from('Doctor').select('Id,Name,Surname');
-    // public field1:Object = { dataSource:this.data, query1: this.query, id: 'Id', text: 'Name'};
-  
-    // private Url = 'https://localhost:44308/api/Patient';
-    // data1: any = {};
-  
-    // constructor(private http: Http) {
-    //   this.getContacts();
-    //   this.getData();
-    // }
-  
-    // getData() {
-    //   return this.http.get(this.Url)
-    //     .map((res: Response) => res.json())
-    // }
-  
-    // getContacts() {
-    //   this.getData().subscribe(data1 => {
-    //     console.log(data1);
-    //     this.data1 = data1
-    //   })
-    // }
 
 }
