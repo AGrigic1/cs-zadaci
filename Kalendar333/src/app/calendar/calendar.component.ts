@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { L10n } from '@syncfusion/ej2-base';
-import { View, EventSettingsModel, DragEventArgs, ResizeEventArgs, ScheduleComponent, CellClickEventArgs, ActionEventArgs, GroupModel } from '@syncfusion/ej2-angular-schedule';
+import { View, EventSettingsModel, DragEventArgs, ResizeEventArgs, ScheduleComponent, CellClickEventArgs, ActionEventArgs, GroupModel, TimelineMonthService  } from '@syncfusion/ej2-angular-schedule';
 import { DragAndDropEventArgs, TreeViewComponent } from '@syncfusion/ej2-angular-navigations';
 import { Http, Response } from '@angular/http';
-import { DataManager, WebApiAdaptor, Query, ODataV4Adaptor } from '@syncfusion/ej2-data';
+import { DataManager, WebApiAdaptor, Query, Predicate, ODataV4Adaptor } from '@syncfusion/ej2-data';
+import { CheckBoxComponent } from '@syncfusion/ej2-angular-buttons';
 import 'rxjs/add/operator/map';
 import { RepositoryService } from '../service/repository.service';
 import { Patient } from './patient';
@@ -48,6 +49,9 @@ export class CalendarComponent implements OnInit {
 
   @ViewChild('sheduleObj')
   public scheduleInstance: ScheduleComponent;
+  @ViewChild('doctorOneObj') doktorOneObj: CheckBoxComponent;
+  @ViewChild('doctorTwoObj') doktorTwoObj: CheckBoxComponent;
+  @ViewChild('doctorThreeObj') doktorThreeObj: CheckBoxComponent;
   @ViewChild('treeObj')
   public treeObj: TreeViewComponent;
 
@@ -95,7 +99,6 @@ export class CalendarComponent implements OnInit {
   public setView: View = 'Month'; //postavljanje početnog pogleda na kalendar, izmjena izmedu Day, Week, WorkWeek, Month, Agenda
   public setDate: Date = new Date(2020,4,28); //postavljanje datuma po želji
   public dateFormat: string = "dd/MM/yyyy";
-  public views: Array<string> = ['Day','Week','WorkWeek','Month'];
 
   public DocDataSource: Object[] = [
     { name: "Ivica", id: 1},
@@ -113,7 +116,8 @@ export class CalendarComponent implements OnInit {
       Id: 1,
       StartTime: new Date(2020,4,25,10,0), //rucno postavljanje eventa
       EndTime: new Date(2020,4,25,12,0),
-      PacGroupId: 2
+      doctors: "03272354-6fdc-4f41-60ec-08d808629d13",
+      patients: 1
     },
     {
       Id: 2,
@@ -127,6 +131,21 @@ export class CalendarComponent implements OnInit {
     /*fields: {
       subject: { name: 'Subject', default: "Pozdrav" }
     }*/
+  }
+
+  onChange(): void {
+    let predicate: Predicate;
+    let checkBoxes: CheckBoxComponent[] = [this.doktorOneObj, this.doktorTwoObj, this.doktorThreeObj];
+    checkBoxes.forEach((checkBoxObj: CheckBoxComponent) => {
+      if (checkBoxObj.checked) {
+        if (predicate) {
+          predicate = predicate.or("id", 'equal', parseInt(checkBoxObj.value, 10));
+        } else {
+          predicate = new Predicate("id", 'equal', parseInt(checkBoxObj.value, 10));
+        }
+      }
+    });
+    this.scheduleInstance.eventSettings.query = new Query().where(predicate);
   }
 
   onTreeDragStop(args: DragAndDropEventArgs): void {

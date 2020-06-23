@@ -12,6 +12,7 @@ import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 import { DateTimePickerModule } from '@syncfusion/ej2-angular-calendars';
 import { AppRoutingModule } from './app-routing.module';
 import { CalendarComponent } from './calendar/calendar.component';
+import { CheckBoxAllModule } from '@syncfusion/ej2-angular-buttons';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { CalendarComponent } from './calendar/calendar.component';
     TreeViewModule,
     DropDownListModule,
     DateTimePickerModule,
-    AppRoutingModule
+    AppRoutingModule,
+    CheckBoxAllModule
   ],
   providers: [DayService, WeekService, WorkWeekService, MonthService, MonthAgendaService, DragAndDropService, ResizeService, AgendaService, TimelineViewsService, TimelineMonthService],
   bootstrap: [AppComponent]

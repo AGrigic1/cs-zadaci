@@ -10,6 +10,13 @@
       [selectedDate]="setDate" 
       [eventSettings]="eventObject"
       [group]="group">
+      <e-views>
+        <e-view option='Day' displayName='Dan'></e-view>
+        <e-view option='Week' displayName='Tjedan'></e-view>
+        <e-view option='Month' displayName='Mjesec'></e-view>
+        <e-view option='TimelineDay' displayName='Timeline dan'></e-view>
+        <e-view option='TimelineMonth' displayName='Timeline mjesec'></e-view>
+      </e-views>
       <e-resources>
         <e-resource
             field="doctors" 
@@ -108,7 +115,31 @@
         </table>
       </ng-template> -->
     </ejs-schedule> 
-  </div> 
+  </div>
+  <!-- <div class="col-lg-3 property-section checkbox-alignment">
+    <table id="checkboxes" style="width: 100%">
+        <tbody>
+            <tr style="height: 50px">
+                <td style="width: 100%">
+                    <ejs-checkbox #ownerOneObj cssClass="margaret" label="Doktor1" value="1" [checked]="true" (change)="onChange()">
+                    </ejs-checkbox>
+                </td>
+            </tr>
+            <tr style="height: 50px">
+                <td style="width: 100%">
+                    <ejs-checkbox #ownerTwoObj cssClass="robert" label="DOktor2" value="2" [checked]="true" (change)="onChange()">
+                    </ejs-checkbox>
+                </td>
+            </tr>
+            <tr style="height: 50px">
+                <td style="width: 100%">
+                    <ejs-checkbox #ownerThreeObj cssClass="laura" label="Doktor3" value="3" [checked]="true" (change)="onChange()">
+                    </ejs-checkbox>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+  </div> -->
   <!-- <div style="width:300px;float:right;margin-right:150px"> -->
   <!-- <div class="treeview-container">
     <div class="title-container">
