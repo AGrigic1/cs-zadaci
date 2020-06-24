@@ -116,6 +116,9 @@
       </ng-template> -->
     </ejs-schedule> 
   </div>
+  <div>
+    <ejs-dropdownlist id='ddlelement' [dataSource]='doctors' [fields]='poljaDoc' placeholder='Odaberi doktora' [allowFiltering]='true' (filtering)='onFiltering($event)' [sortOrder]='sorting' popupHeight='200px' popupWidth='250px'></ejs-dropdownlist>
+  </div>
   <!-- <div class="col-lg-3 property-section checkbox-alignment">
     <table id="checkboxes" style="width: 100%">
         <tbody>

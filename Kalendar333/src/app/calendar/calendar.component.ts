@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { L10n } from '@syncfusion/ej2-base';
+import { L10n, EmitType } from '@syncfusion/ej2-base';
 import { View, EventSettingsModel, DragEventArgs, ResizeEventArgs, ScheduleComponent, CellClickEventArgs, ActionEventArgs, GroupModel, TimelineMonthService  } from '@syncfusion/ej2-angular-schedule';
 import { DragAndDropEventArgs, TreeViewComponent } from '@syncfusion/ej2-angular-navigations';
 import { Http, Response } from '@angular/http';
 import { DataManager, WebApiAdaptor, Query, Predicate, ODataV4Adaptor } from '@syncfusion/ej2-data';
 import { CheckBoxComponent } from '@syncfusion/ej2-angular-buttons';
+import { FilteringEventArgs } from '@syncfusion/ej2-dropdowns';
 import 'rxjs/add/operator/map';
 import { RepositoryService } from '../service/repository.service';
 import { Patient } from './patient';
@@ -91,16 +92,25 @@ export class CalendarComponent implements OnInit {
   public allowMultiplePac: Boolean = true;
   public allowEditing: boolean = true;
 
-  public group: GroupModel = {
-    byGroupID: false,
-    resources: ["Doktori", "Pacijenti"]
-  };
+  // public group: GroupModel = {
+  //   byGroupID: false,
+  //   resources: ["Doktori", "Pacijenti"]
+  // };
 
   public setView: View = 'Month'; //postavljanje početnog pogleda na kalendar, izmjena izmedu Day, Week, WorkWeek, Month, Agenda
   public setDate: Date = new Date(2020,4,28); //postavljanje datuma po želji
   public dateFormat: string = "dd/MM/yyyy";
 
-  public DocDataSource: Object[] = [
+  /* DROPDOWN LIST */
+  public poljaDoc: Object = { text: 'name', value: 'id'};
+  public onFiltering: EmitType =  (e: FilteringEventArgs) => {
+        let query = new Query();
+        query = (e.text != "") ? query.where("name", "startswith", e.text, true) : query;
+        e.updateData(this.doctors, query);
+  };
+  public sorting: string = 'Ascending';
+
+  public DocDataSource: {[key:string]: Object}[] = [
     { name: "Ivica", id: 1},
     { name: "Perica", id: 2}
   ];
