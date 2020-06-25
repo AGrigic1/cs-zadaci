@@ -50,9 +50,6 @@ export class CalendarComponent implements OnInit {
 
   @ViewChild('sheduleObj')
   public scheduleInstance: ScheduleComponent;
-  @ViewChild('doctorOneObj') doktorOneObj: CheckBoxComponent;
-  @ViewChild('doctorTwoObj') doktorTwoObj: CheckBoxComponent;
-  @ViewChild('doctorThreeObj') doktorThreeObj: CheckBoxComponent;
   @ViewChild('treeObj')
   public treeObj: TreeViewComponent;
 
@@ -102,13 +99,13 @@ export class CalendarComponent implements OnInit {
   public dateFormat: string = "dd/MM/yyyy";
 
   /* DROPDOWN LIST */
-  public poljaDoc: Object = { text: 'name', value: 'id'};
-  public onFiltering: EmitType =  (e: FilteringEventArgs) => {
-        let query = new Query();
-        query = (e.text != "") ? query.where("name", "startswith", e.text, true) : query;
-        e.updateData(this.doctors, query);
-  };
-  public sorting: string = 'Ascending';
+  // public poljaDoc: Object = { text: 'name', value: 'id'};
+  // public onFiltering: EmitType =  (e: FilteringEventArgs) => {
+  //       let query = new Query();
+  //       query = (e.text != "") ? query.where("name", "startswith", e.text, true) : query;
+  //       e.updateData(this.doctors, query);
+  // };
+  // public sorting: string = 'Ascending';
 
   public DocDataSource: {[key:string]: Object}[] = [
     { name: "Ivica", id: 1},
@@ -124,6 +121,7 @@ export class CalendarComponent implements OnInit {
     dataSource: 
     [{
       Id: 1,
+      Subject: "Testiranje",
       StartTime: new Date(2020,4,25,10,0), //rucno postavljanje eventa
       EndTime: new Date(2020,4,25,12,0),
       doctors: "03272354-6fdc-4f41-60ec-08d808629d13",
@@ -132,30 +130,15 @@ export class CalendarComponent implements OnInit {
     {
       Id: 2,
       Subject: "Testing2",
-      StartTime: new Date(2020,4,28,10,0),
-      EndTime: new Date(2020,4,28,12,0),
-      Location: "Krov",
-      Description: "Sta?"
+      StartTime: new Date(2020,4,28),
+      EndTime: new Date(2020,4,28),
+      Location: "Bolnica",
+      Description: "Bolest"
     }
     ], 
     /*fields: {
       subject: { name: 'Subject', default: "Pozdrav" }
     }*/
-  }
-
-  onChange(): void {
-    let predicate: Predicate;
-    let checkBoxes: CheckBoxComponent[] = [this.doktorOneObj, this.doktorTwoObj, this.doktorThreeObj];
-    checkBoxes.forEach((checkBoxObj: CheckBoxComponent) => {
-      if (checkBoxObj.checked) {
-        if (predicate) {
-          predicate = predicate.or("id", 'equal', parseInt(checkBoxObj.value, 10));
-        } else {
-          predicate = new Predicate("id", 'equal', parseInt(checkBoxObj.value, 10));
-        }
-      }
-    });
-    this.scheduleInstance.eventSettings.query = new Query().where(predicate);
   }
 
   onTreeDragStop(args: DragAndDropEventArgs): void {
