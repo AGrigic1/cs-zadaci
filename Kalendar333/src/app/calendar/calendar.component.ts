@@ -11,6 +11,7 @@ import { RepositoryService } from '../service/repository.service';
 import { Patient } from './patient';
 import { Doctor } from './doctor';
 import { Appointment } from './appointment';
+import * as moment from 'moment';
 
 L10n.load({
   'en-US': {
@@ -50,6 +51,9 @@ export class CalendarComponent implements OnInit {
 
   @ViewChild('sheduleObj')
   public scheduleInstance: ScheduleComponent;
+  @ViewChild('doctorOneObj') doktorOneObj: CheckBoxComponent;
+  @ViewChild('doctorTwoObj') doktorTwoObj: CheckBoxComponent;
+  @ViewChild('doctorThreeObj') doktorThreeObj: CheckBoxComponent;
   @ViewChild('treeObj')
   public treeObj: TreeViewComponent;
 
@@ -58,6 +62,8 @@ export class CalendarComponent implements OnInit {
   appointments: Appointment[];
 
   constructor(private _repositoryService: RepositoryService){
+    // let now = moment();
+    // console.log(now.add(10, 'minutes').format('YYYY,M,D h:mm:ss a'));
   }
 
   async delay(ms: number) {
@@ -82,6 +88,18 @@ export class CalendarComponent implements OnInit {
       .subscribe((appointmentData) => {
         console.log(appointmentData);
         this.appointments = appointmentData;
+        let mapped = this.appointments.map((appointment: Appointment) => {
+          return {
+            Id: appointment.id,
+            StartTime: moment(appointment.dateTime).format('YYYY,M,D h:mm:ss a'),
+            EndTime: moment(appointment.dateTime).add(15, 'minutes').format('YYYY,M,D h:mm:ss a'),
+            doctors: appointment.doctorId,
+            patients: appointment.patientId,
+          }
+        })
+        this.eventObject = {
+          dataSource: mapped
+        }
       })
 
   }
@@ -121,7 +139,6 @@ export class CalendarComponent implements OnInit {
     dataSource: 
     [{
       Id: 1,
-      Subject: "Testiranje",
       StartTime: new Date(2020,4,25,10,0), //rucno postavljanje eventa
       EndTime: new Date(2020,4,25,12,0),
       doctors: "03272354-6fdc-4f41-60ec-08d808629d13",

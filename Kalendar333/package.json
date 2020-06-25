@@ -75,6 +75,7 @@
     "@syncfusion/ej2-svg-base": "^18.1.52",
     "@syncfusion/ej2-treemap": "^18.1.54",
     "bootstrap": "^4.4.0",
+    "moment": "^2.27.0",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
