@@ -51,9 +51,6 @@ export class CalendarComponent implements OnInit {
 
   @ViewChild('sheduleObj')
   public scheduleInstance: ScheduleComponent;
-  @ViewChild('doctorOneObj') doktorOneObj: CheckBoxComponent;
-  @ViewChild('doctorTwoObj') doktorTwoObj: CheckBoxComponent;
-  @ViewChild('doctorThreeObj') doktorThreeObj: CheckBoxComponent;
   @ViewChild('treeObj')
   public treeObj: TreeViewComponent;
 
@@ -84,6 +81,12 @@ export class CalendarComponent implements OnInit {
         this.doctors = doctorData;
       })
 
+    // this._repositoryService.postAppointment(this.noviAppointments)
+    //   .subscribe(appo => {
+    //     this.appointments.push(appo);
+    //     console.log(appo);
+    //   })
+
     this._repositoryService.getAppointment()
       .subscribe((appointmentData) => {
         console.log(appointmentData);
@@ -95,6 +98,7 @@ export class CalendarComponent implements OnInit {
             EndTime: moment(appointment.dateTime).add(15, 'minutes').format('YYYY,M,D h:mm:ss a'),
             doctors: appointment.doctorId,
             patients: appointment.patientId,
+            Description: appointment.status,
           }
         })
         this.eventObject = {
@@ -113,7 +117,7 @@ export class CalendarComponent implements OnInit {
   // };
 
   public setView: View = 'Month'; //postavljanje početnog pogleda na kalendar, izmjena izmedu Day, Week, WorkWeek, Month, Agenda
-  public setDate: Date = new Date(2020,4,28); //postavljanje datuma po želji
+  public setDate: Date = new Date(); //postavljanje datuma po želji
   public dateFormat: string = "dd/MM/yyyy";
 
   /* DROPDOWN LIST */
