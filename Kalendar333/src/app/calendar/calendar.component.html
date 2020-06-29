@@ -8,7 +8,8 @@
       (dragStart) = "onDragStart($event)" 
       (resizeStart) = "onResizeStart($event)" 
       [selectedDate]="setDate" 
-      [eventSettings]="eventObject">
+      [eventSettings]="eventObject" 
+      [group]='groupSettings'>
       <e-views>
         <e-view option='Day' displayName='Dan'></e-view>
         <e-view option='Week' displayName='Tjedan'></e-view>
@@ -31,8 +32,6 @@
             name="Pacijenti" 
             textField="name"
             idField="id"
-            groupIDField="PacGroupId"
-            [allowMultiple]="allowMultiplePac"
             [dataSource]="patients">
         </e-resource>
       </e-resources>

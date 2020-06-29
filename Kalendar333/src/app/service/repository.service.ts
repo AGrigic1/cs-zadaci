@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Pipe } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
@@ -15,6 +15,8 @@ export class RepositoryService {
 
   }
   
+  url = "https://localhost:44308/api";
+
   getPatient(): Observable<Patient[]> {
     return this._http.get("https://localhost:44308/api/Patient")
       .map((response: Response ) => <Patient[]>response.json())
@@ -30,20 +32,29 @@ export class RepositoryService {
       .map((response: Response ) => <Appointment[]>response.json())
   }
 
-  // postAppointment(appointments: Appointment): Observable<Appointment> {
-  //   return this._http.post<Appointment>("https://localhost:44308/api/Appointment", appointments, {
+  //  postAppointment(appointments: Appointment): Observable<Appointment> {
+  //    return this._http.postAppointment("https://localhost:44308/api/Appointment", appointments).pipe(
+  //      map( response => {
+  //          return new Appointment().deserialize(response);
+  //        }
+  //      )
+  //    );
+  //  }
+
+  public getSchedule(): any {
+    const scheduleObservable = new Observable(observer => {
+      setTimeout(() => {
+        observer.next(this.appointments);
+      }, 1000);
+    });
+    return scheduleObservable;
+  }
+  // putAppointment(appointments: Appointment): Observable<Appointment> {
+  //   return this._http.put<Appointment>("https://localhost:44308/api/Appointment", appointments, {
   //     headers: new HttpHeaders({
-  //       'Content-Type': 'application/json'
+  //       'Authorization': 'my-auth-token'
   //     })
   //   })
   // }
-
-  putAppointment(appointments: Appointment): Observable<Appointment> {
-    return this._http.put<Appointment>("https://localhost:44308/api/Appointment", appointments, {
-      headers: new HttpHeaders({
-        'Authorization': 'my-auth-token'
-      })
-    })
-  }
 
 } 

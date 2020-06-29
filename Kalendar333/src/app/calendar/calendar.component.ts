@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { L10n, EmitType } from '@syncfusion/ej2-base';
-import { View, EventSettingsModel, DragEventArgs, ResizeEventArgs, ScheduleComponent, CellClickEventArgs, ActionEventArgs, GroupModel, TimelineMonthService  } from '@syncfusion/ej2-angular-schedule';
+import { L10n, EmitType, extend } from '@syncfusion/ej2-base';
+import { PopupOpenEventArgs, View, EventSettingsModel, DragEventArgs, ResizeEventArgs, ScheduleComponent, CellClickEventArgs, ActionEventArgs, GroupModel, TimelineMonthService  } from '@syncfusion/ej2-angular-schedule';
 import { DragAndDropEventArgs, TreeViewComponent } from '@syncfusion/ej2-angular-navigations';
 import { Http, Response } from '@angular/http';
 import { DataManager, WebApiAdaptor, Query, Predicate, ODataV4Adaptor } from '@syncfusion/ej2-data';
@@ -53,10 +53,14 @@ export class CalendarComponent implements OnInit {
   public scheduleInstance: ScheduleComponent;
   @ViewChild('treeObj')
   public treeObj: TreeViewComponent;
-
+  public groupSettings: GroupModel = { byGroupID: false};
   patients: Patient[];
   doctors: Doctor[];
   appointments: Appointment[];
+  appointment: Appointment;
+  doctor: Doctor;
+  patient: Patient;
+  students: ScheduleData[] = [];
 
   constructor(private _repositoryService: RepositoryService){
     // let now = moment();
@@ -81,11 +85,11 @@ export class CalendarComponent implements OnInit {
         this.doctors = doctorData;
       })
 
-    // this._repositoryService.postAppointment(this.noviAppointments)
-    //   .subscribe(appo => {
-    //     this.appointments.push(appo);
-    //     console.log(appo);
-    //   })
+    //  this._repositoryService.postAppointment(this.appointments)
+    //    .subscribe(request => {
+    //      this.appointments.push(request);
+    //      console.log(request);
+    //    })
 
     this._repositoryService.getAppointment()
       .subscribe((appointmentData) => {
@@ -106,9 +110,18 @@ export class CalendarComponent implements OnInit {
         }
       })
 
+    const studentsObservable = this._repositoryService.getSchedule();
+    studentsObservable.subscribe((appointments: Appointment[]) => {
+      let initialData: Object[] = <Object[]>extend([], this.scheduleInstance.eventSettings.dataSource, null, true);
+      appointments.forEach(element => {
+        if (element.id < "16") {
+          initialData.push(element);
+        }
+      })
+      this.scheduleInstance.eventSettings.dataSource = initialData;
+    });
   }
 
-  public allowMultiplePac: Boolean = true;
   public allowEditing: boolean = true;
 
   // public group: GroupModel = {
@@ -182,4 +195,11 @@ export class CalendarComponent implements OnInit {
     args.interval = 5;
   }
 
+  // onSave(){
+  //   this.appointment.doctorId: this.dataSource.id
+  // }
+
+  // selectedDoctor(){
+  //   this.doctor: 
+  // }
 }
