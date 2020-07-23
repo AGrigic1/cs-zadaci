@@ -23,6 +23,20 @@ L10n.load({
       'month': 'Mjesec',
       'today': 'Danas',
       'saveButton': 'Dodaj',
+      'location': 'Lokacija',
+      'addTitle': 'Dodaj naslov',
+      'moreDetails': 'Više detalja',
+      'save': 'Spremi',
+      'allDay': 'Cijeli dan',
+      'start': 'Početak',
+      'end': 'Kraj',
+      'timezone': 'Vremenska zona',
+      'startTimezone': 'Početak vremenske zone',
+      'endTimezone': 'Kraj vremenske zone',
+      'repeat': 'Ponovi',
+      'description': 'Opis',
+      'cancelButton': 'Odustani',
+      'noTitle': '(Nema naslova)',
       'cancleButton': 'Zatvori',
       'deleteButton': 'Ukloni',
       'newEvent': 'Dodaj događaj',
@@ -49,8 +63,8 @@ L10n.load({
 export class CalendarComponent implements OnInit {
   title = 'Kalednar333';
 
-  @ViewChild('sheduleObj')
-  public scheduleInstance: ScheduleComponent;
+  @ViewChild('scheduleObj')
+  public scheduleObj: ScheduleComponent;
   @ViewChild('treeObj')
   public treeObj: TreeViewComponent;
   public groupSettings: GroupModel = { byGroupID: false};
@@ -60,7 +74,6 @@ export class CalendarComponent implements OnInit {
   appointment: Appointment;
   doctor: Doctor;
   patient: Patient;
-  students: ScheduleData[] = [];
 
   constructor(private _repositoryService: RepositoryService){
     // let now = moment();
@@ -91,6 +104,14 @@ export class CalendarComponent implements OnInit {
     //      console.log(request);
     //    })
 
+    // addAppointment() {
+    //   this._repositoryService.postAppointment(this.appointment)
+    //     .subscribe(appointmentData => {
+    //       console.log(appointmentData)
+    //       this.getAppointment();
+    //     })
+    // }
+
     this._repositoryService.getAppointment()
       .subscribe((appointmentData) => {
         console.log(appointmentData);
@@ -110,16 +131,17 @@ export class CalendarComponent implements OnInit {
         }
       })
 
-    const studentsObservable = this._repositoryService.getSchedule();
-    studentsObservable.subscribe((appointments: Appointment[]) => {
-      let initialData: Object[] = <Object[]>extend([], this.scheduleInstance.eventSettings.dataSource, null, true);
-      appointments.forEach(element => {
-        if (element.id < "16") {
-          initialData.push(element);
-        }
-      })
-      this.scheduleInstance.eventSettings.dataSource = initialData;
-    });
+    // const studentsObservable = this._repositoryService.getSchedule();
+    // studentsObservable.subscribe((appointments: Appointment[]) => {
+    //   let initialData: Object[] = <Object[]>extend([], 
+    //   this.scheduleObj.eventSettings.dataSource, null, true);
+    //   appointments.forEach(element => {
+    //     if (element.id < "16") {
+    //       initialData.push(element);
+    //     }
+    //   })
+    //   this.scheduleObj.eventSettings.dataSource = initialData;
+    // });
   }
 
   public allowEditing: boolean = true;
@@ -152,38 +174,20 @@ export class CalendarComponent implements OnInit {
     { name: "Klara", id: 3, PacGroupId: "87e81399-4c6f-428c-60ee-08d808629d13" }
   ];
 
-  public eventObject: EventSettingsModel = {
-    dataSource: 
-    [{
-      Id: 1,
-      StartTime: new Date(2020,4,25,10,0), //rucno postavljanje eventa
-      EndTime: new Date(2020,4,25,12,0),
-      doctors: "03272354-6fdc-4f41-60ec-08d808629d13",
-      patients: 1
-    },
-    {
-      Id: 2,
-      Subject: "Testing2",
-      StartTime: new Date(2020,4,28),
-      EndTime: new Date(2020,4,28),
-      Location: "Bolnica",
-      Description: "Bolest"
-    }
-    ], 
+  public eventObject: EventSettingsModel = {}
     /*fields: {
       subject: { name: 'Subject', default: "Pozdrav" }
     }*/
-  }
 
   onTreeDragStop(args: DragAndDropEventArgs): void {
-    let cellData: CellClickEventArgs = this.scheduleInstance.getCellDetails(args.target);
+    let cellData: CellClickEventArgs = this.scheduleObj.getCellDetails(args.target);
     let eventData: { [key: string]: Object } = {
       Subject: args.draggedNodeData.text,
       StartTime: cellData.startTime,
       EndTime: cellData.endTime,
       IsAllDay: cellData.isAllDay
     };
-    this.scheduleInstance.addEvent(eventData);
+    this.scheduleObj.addEvent(eventData);
   }
 
   onDragStart(args: DragEventArgs): void {
@@ -195,11 +199,5 @@ export class CalendarComponent implements OnInit {
     args.interval = 5;
   }
 
-  // onSave(){
-  //   this.appointment.doctorId: this.dataSource.id
-  // }
-
-  // selectedDoctor(){
-  //   this.doctor: 
-  // }
+  this
 }

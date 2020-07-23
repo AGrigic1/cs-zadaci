@@ -4,6 +4,5 @@ export interface Patient{
     Surname: string;
     Email: string;
     DateOfBirth: string;
-    PatientGroupId: string;
     Appointments: string;
 }

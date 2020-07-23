@@ -11,6 +11,15 @@ import { Http, Response, Headers } from '@angular/http';
 @Injectable()
 export class RepositoryService {
 
+  public getSchedule(): any {
+    const scheduleObservable = new Observable(observer => {
+      setTimeout(() => {
+        observer.next(this.getAppointment);
+      }, 1000);
+    });
+    return scheduleObservable;
+  }
+
   constructor(private _http: Http){
 
   }
@@ -32,23 +41,14 @@ export class RepositoryService {
       .map((response: Response ) => <Appointment[]>response.json())
   }
 
-  //  postAppointment(appointments: Appointment): Observable<Appointment> {
-  //    return this._http.postAppointment("https://localhost:44308/api/Appointment", appointments).pipe(
-  //      map( response => {
-  //          return new Appointment().deserialize(response);
-  //        }
-  //      )
-  //    );
-  //  }
+  // postAppointment(appointments: Appointment): Observable<any> {
+  //   const headers = { 'content-type': 'application/json'}
+  //   const body = JSON.stringfy(appointment):
+  //   console.log(body)
+  //   return this._http.post("https://localhost:44308/api/Appointment", body,{'headers': headers})
+  // }
 
-  public getSchedule(): any {
-    const scheduleObservable = new Observable(observer => {
-      setTimeout(() => {
-        observer.next(this.appointments);
-      }, 1000);
-    });
-    return scheduleObservable;
-  }
+
   // putAppointment(appointments: Appointment): Observable<Appointment> {
   //   return this._http.put<Appointment>("https://localhost:44308/api/Appointment", appointments, {
   //     headers: new HttpHeaders({
